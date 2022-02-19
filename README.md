@@ -42,11 +42,20 @@ First, before you do anything, you need to choose how you are going to register 
 
 ## Geyser API
 1. In your extension config file, you need to set: `loadTime: "PRE_INITIALIZE"` so that the pre init event can be caught, and your items can be registered.
-2. Create your custom item, and store it somewhere:
+2. This is where the custom model data and the damage predicates come in. Choose your registration type.
+    * Custom model data:
+    ```java
+    CustomModelDataItemType registrationType = new CustomModelDataItemType(111111)
+    ```
+    * Damage predicates:
+    ```java
+    //Not yet implemented
+    ```
+3. Create your custom item, and store it somewhere:
 ```java
-CustomItemData myItem = new CustomItemData(111111, "my_item");
+CustomItemData myItem = new CustomItemData(registrationType, "my_item");
 ```
-3. You now have some modifiers that you can set to further customise your item. They are NOT required.
+4. You now have some modifiers that you can set to further customise your item. They are NOT required.
 ```java
 myItem.setDisplayName("displayName");
 myItem.setIsTool(false);
@@ -54,7 +63,7 @@ myItem.setAllowOffhand(false);
 myItem.setIsHat(false);
 myItem.setTextureSize(16);
 ```
-4. Then, in your pre init event, you can register your item:
+5. Then, in your pre init event, you can register your item:
 ```java
 this.geyserApi().customManager().getItemManager().registerCustomItem("minecraft:JAVA_ITEM", myItem);
 ```
