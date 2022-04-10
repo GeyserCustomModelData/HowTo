@@ -33,12 +33,37 @@ First, before you do anything, you need to choose how you are going to register 
         "damage_predicate": 1
     }
     ```
-5. You now have some modifiers that you can set to further customise your item. They are NOT required.
+5. You now have some modifiers that you can set to further customise your item. Note that they are NOT required.
     * `display_name` (string)
     * `is_tool` (boolean)
     * `allow_offhand` (boolean)
     * `is_hat` (boolean)
     * `texture_size` (int)
+    * `render_offsets` (object) It works as follows. Note that all the sub-objects are optional, except x, y and z. You can have for example only a main hand with a position, and noting else.
+    ```json
+    "render_offsets": {
+        "main_hand": {
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        "off_hand": {
+
+        }
+    }
+    ```
 
 ## Geyser API
 1. In your extension config file, you need to set: `loadTime: "PRE_INITIALIZE"` so that the pre init event can be caught, and your items can be registered.
@@ -62,6 +87,7 @@ myItem.setIsTool(false);
 myItem.setAllowOffhand(false);
 myItem.setIsHat(false);
 myItem.setTextureSize(16);
+myItem.setRenderOffsets(new CustomRenderOffsets(...));
 ```
 5. Then, in your pre init event, you can register your item:
 ```java
