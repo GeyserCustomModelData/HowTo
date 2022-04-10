@@ -43,20 +43,25 @@ First, before you do anything, you need to choose how you are going to register 
     ```json
     "render_offsets": {
         "main_hand": {
-            "position": {
-                "x": 0,
-                "y": 0,
-                "z": 0
+            "first_person": {
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
             },
-            "rotation": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-            },
-            "scale": {
-                "x": 0,
-                "y": 0,
-                "z": 0
+            "third_person": {
+
             }
         },
         "off_hand": {
