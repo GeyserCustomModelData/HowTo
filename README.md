@@ -1,8 +1,8 @@
-# How to setup Geyser Custom Items?
-First, before you do anything, you need to choose how you are going to register your item. Is it using custom model data (CMD) or using damage predicates? Do you want to use a json file or the Geyser API? Please choose your section accordingly, then move on to the resource pack creation part.
+# How do I setup Geyser custom items?
+First, before you do anything, you need to choose how you are going to register your item. Do you want to use a json file or the Geyser API? Please choose your section accordingly, then move on to the resource pack creation part.
 
 ## JSON files
-1. You need to run a version of Geyser that supports custom items. Then, normally, you should have a folder called `custom_mappings` that is created. That would be with the Geyser .jar file for standalone and inside you Geyser data folder for an extension.
+1. You need to run a version of Geyser that supports custom items. Then, normally, after running, you should have a folder called `custom_mappings` that is created. That would be with the folder of Geyser.jar for standalone and inside your Geyser data folder for an extension.
 2. Create a `.json` file, it can be any name you like and as many files as you like. You don't need to make one file per item. Here is the structure of the file:
 ```json
 {
@@ -18,22 +18,17 @@ First, before you do anything, you need to choose how you are going to register 
 
 ]
 ```
-4. Inside this java item, goes an array of all your custom items. This is where the custom model data and the damage predicates come in.
-    * Custom model data:
-    ```json
-    {
-        "name": "my_item",
-        "custom_model_data": 1
-    }
-    ```
-    * Damage predicates:
-    ```json
-    {
-        "name": "my_item",
-        "damage_predicate": 1
-    }
-    ```
-5. You now have some modifiers that you can set to further customise your item. Note that they are NOT required.
+4. Inside this java item, goes an array of all your custom items.
+```json
+{
+    "name": "my_item"
+}
+```
+5. Then, you need to set your registrations, they can be stacked, so that all of the specified types need to match.
+    * Custom model data: `custom_model_data` (int)
+    * Damage predicate: `damage_predicate` (int) This is a fractional value of damage/max damage and not a number between 0 and 1.
+    * Unbreaking: `unbreaking` (boolean)
+6. You now have some extra modifiers that you can set to further customise your item. **Note that the following modifiers are NOT required.**
     * `display_name` (string)
     * `is_tool` (boolean)
     * `allow_offhand` (boolean)
@@ -72,20 +67,18 @@ First, before you do anything, you need to choose how you are going to register 
 
 ## Geyser API
 1. In your extension config file, you need to set: `loadTime: "PRE_INITIALIZE"` so that the pre init event can be caught, and your items can be registered.
-2. This is where the custom model data and the damage predicates come in. Choose your registration type.
-    * Custom model data:
-    ```java
-    CustomModelDataItemType registrationType = new CustomModelDataItemType(111111)
-    ```
-    * Damage predicates:
-    ```java
-    //Not yet implemented
-    ```
+2. Then, create your custom registration type, to which you can add any number of the following registration types. They can be stacked, so that all of the specified types need to match.
+```java
+CustomItemRegistrationTypes registrationTypes = new CustomItemRegistrationTypes();
+registrationTypes.customModelData(1);
+registrationTypes.damagePredicate(1); //This is a fractional value of damage/max damage and not a number between 0 and 1.
+registrationTypes.unbreaking(true);
+```
 3. Create your custom item, and store it somewhere:
 ```java
-CustomItemData myItem = new CustomItemData(registrationType, "my_item");
+CustomItemData myItem = new CustomItemData(registrationTypes, "my_item");
 ```
-4. You now have some modifiers that you can set to further customise your item. They are NOT required.
+4. You now have some modifiers that you can set to further customise your item. **Note that the following modifiers are NOT required.**
 ```java
 myItem.setDisplayName("displayName");
 myItem.setIsTool(false);
@@ -120,4 +113,4 @@ this.geyserApi().customManager().getItemManager().registerCustomItem("minecraft:
     ]
 }
 ```
-5. Then you need to put your textures inside `items`. Make sure to have it match the texture name that you pur in `item_texture.json`!
+5. Then you need to put your textures inside the `textures/items`. Make sure to have it match the texture path that you specified in `item_texture.json`!
